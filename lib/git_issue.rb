@@ -52,6 +52,7 @@ module GitIssue
       case its_type
         when /redmine/i then GitIssue::Redmine
         when /github/i  then GitIssue::Github
+        when /lighthouse/i  then GitIssue::Lighthouse
         else
           raise "unknown issue tracker type : #{its_type}"
       end
@@ -139,7 +140,7 @@ module GitIssue
         end
       end
 
-      Helper.configure_error('type (redmine | github)', "git config issue.type redmine") if its_type.blank?
+      Helper.configure_error('type (redmine | github | lighthouse)', "git config issue.type redmine") if its_type.blank?
 
       its_klass = Helper.its_klass_of(its_type)
       status = its_klass.new(ARGV).execute || true
@@ -157,3 +158,4 @@ end
 require File.dirname(__FILE__) + '/git_issue/base'
 require File.dirname(__FILE__) + '/git_issue/redmine'
 require File.dirname(__FILE__) + '/git_issue/github'
+require File.dirname(__FILE__) + '/git_issue/lighthouse'
